@@ -1,10 +1,13 @@
 import express from 'express'
-import { getUsers, registerUser, profileUser } from "../Controllers/userController.js";
+import { getUsers, registerUser, profileUser, loginUser} from "../Controllers/userController.js";
+import { checkAuth } from '../utils/checkAuth.js';
+
 const router = express.Router();
 
-router.get("/users", getUsers);
-router.post('/users', registerUser)
-router.get('/users/:id', profileUser)
+router.post('/register', registerUser)
+router.post('/login', loginUser)
+router.get("/users",checkAuth, getUsers); //Для разработчика 
+router.get('/users/:id', checkAuth, profileUser)
 
 
 

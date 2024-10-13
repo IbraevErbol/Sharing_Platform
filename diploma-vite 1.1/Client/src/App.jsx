@@ -1,4 +1,4 @@
-import { Layout } from "./MainComponents/Layout.jsx"
+import { Layout } from "./components/Layout.jsx"
 import { Routes, Route } from "react-router-dom"
 
 import {MainPage} from './pages/MainPage.jsx'; 
