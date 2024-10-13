@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/register', registerUser)
 router.post('/login', loginUser)
 router.get("/users",checkAuth, getUsers); //Для разработчика 
-router.get('/users/:id', checkAuth, profileUser)
+router.get('/profile/:id', checkAuth, profileUser)
 
 
 

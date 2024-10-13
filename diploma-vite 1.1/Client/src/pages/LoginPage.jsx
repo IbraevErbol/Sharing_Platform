@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const inputStyle = {
   width: "100%",
@@ -49,13 +51,35 @@ const wrapperStyle = {
 };
 export const LoginPage = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate(); // Создаем navigate
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage('');
+
+    try {
+      const response = await axios.post('http://localhost:5000/login', { email, password });
+      const { token } = response.data;
+
+      // Сохраните токен, например, в localStorage
+      localStorage.setItem('token', response.data.token);
+
+      // Перенаправление на страницу профиля
+      navigate(`/profile`); // Или любой путь к профилю
+    } catch (error) {
+      setErrorMessage('Ошибка входа: ' + error)
+    }
+  }
   return (
     <div className="sign-in-form" style={formStyle}>
       <div style={wrapperStyle}>
         <h3>Авторизация</h3>
       </div>
-      <form>
+      {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+      <form onSubmit={handleSubmit}>
         <input type="email" placeholder="Email" style={inputStyle} required />
         <input
           type="password"
