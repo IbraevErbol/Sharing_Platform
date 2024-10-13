@@ -1,0 +1,32 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    background-color: #fff;
+    padding: 0 3rem;
+}
+.left-side, .right-side{
+    display: flex; 
+    align-items: center;
+    height: 100%;
+}
+.nav_btn{
+    height: 100%;
+    width: 8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    font-size: 1.1rem;
+}
+.nav_btn:hover{
+    background-color: #e7e7e7;
+    color: blue;
+}
+.nav_btn.active{
+    background-color: #e7e7e7;
+    color: blue;
+}
