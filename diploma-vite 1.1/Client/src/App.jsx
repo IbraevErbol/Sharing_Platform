@@ -5,6 +5,7 @@ import {MainPage} from './pages/MainPage.jsx';
 import {UsersPage} from './pages/UsersPage.jsx';
 import {RegisterPage} from './pages/RegisterPage.jsx';
 import {LoginPage} from './pages/LoginPage.jsx';
+import { ProfilePage } from "./pages/ProfilePage.jsx";
 import {AddPostPage} from './pages/AddPostPage.jsx';
 import {PostPage} from './pages/PostPage.jsx';
 import {EditPostPage} from './pages/EditPostPage.jsx';
@@ -20,6 +21,7 @@ function App() {
         <Route path='new' element={<AddPostPage />} /> {/* Страница добавления нового поста */}
         <Route path=':id' element={<PostPage />} /> {/* Страница для чтения конкретного поста */}
         <Route path=':id/edit' element={<EditPostPage />} /> {/* Страница для изменения конкретного поста */}
+        <Route path='profile/:id' element={<ProfilePage />} /> {/* Страница профиля пользователя */}
       </Routes>
     </Layout>
   )
