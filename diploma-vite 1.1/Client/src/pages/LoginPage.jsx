@@ -61,14 +61,14 @@ export const LoginPage = () => {
     setErrorMessage('');
 
     try {
-      const response = await axios.post('http://localhost:5000/login', { email, password });
-      const { token } = response.data;
+      const response = await axios.post('http://localhost:3000/login', { email, password });
+      const { token, user } = response.data;
 
-      // Сохраните токен, например, в localStorage
+      // Сохраняем токен в localStorage
       localStorage.setItem('token', response.data.token);
 
       // Перенаправление на страницу профиля
-      navigate(`/profile`); // Или любой путь к профилю
+      navigate(`/profile/${user._id}`); 
     } catch (error) {
       setErrorMessage('Ошибка входа: ' + error)
     }
@@ -80,11 +80,20 @@ export const LoginPage = () => {
       </div>
       {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
       <form onSubmit={handleSubmit}>
-        <input type="email" placeholder="Email" style={inputStyle} required />
+        <input 
+          type="email" 
+          placeholder="Email" 
+          style={inputStyle} 
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required 
+        />
         <input
           type="password"
           placeholder="Password"
           style={inputStyle}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
 
