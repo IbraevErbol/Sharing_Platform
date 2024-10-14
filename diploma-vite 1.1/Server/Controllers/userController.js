@@ -8,13 +8,14 @@ const handleError = (res, error) => {
 };
 
 // Получение всех пользователей
-export const getUsers = (req, res) => {
-    Users
-        .find()
-        .then((movies) => {
-            res.status(200).json(movies);
-        })
-        .catch((err) => handleError(res, err));
+export const getUsers = async(req, res) => {
+    try {
+        const users = await Users.find();
+        res.status(200).json(users);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: 'Ошибка получения пользователей'});
+    }
 }
 
 // Регистрация пользователя
