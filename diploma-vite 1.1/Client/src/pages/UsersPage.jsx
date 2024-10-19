@@ -1,31 +1,27 @@
 import axios from "axios";
-// import { decode as jwt_decode } from 'jwt-decode';
-// import jwt_decode from 'jwt-decode';
-
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Context/AuthContext";
 
 export const UsersPage = () => {
+  const { userId, isAuthenticated } = useAuth(); 
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
     const fetchCurrentUser = async () => {
-      if (!token) {
+      if (!isAuthenticated) {
         setCurrentUser(null);
         return;
-      }
-      const decodedToken = jwt_decode(token);
-      const currentUserId = decodedToken.id;
+      }          
+      // const decodedToken = jwt_decode(token);
+      const currentUserId = userId;
 
       try {
         const response = await axios.get(`http://localhost:3000/profile/${currentUserId}`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
         setCurrentUser(response.data); //Сохраняем данные о текущем пользователе
@@ -40,7 +36,7 @@ export const UsersPage = () => {
       try {
         const response = await axios.get(`http://localhost:3000/users`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
         setUsers(response.data);
@@ -49,9 +45,10 @@ export const UsersPage = () => {
         setErrorMessage("Ошибка загрузки списка пользователей.");
       }
     };
+
     fetchUsers();
     fetchCurrentUser();
-  }, []);
+  }, [isAuthenticated, userId]);
 
   if (errorMessage) {
     return <div style={{ color: "red" }}>{errorMessage}</div>;
