@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { json, Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../Context/AuthContext";
 
 import "./Header.css";
 
 export const Navbar = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userId, setUserId] = useState(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if(token){
-      const decodedToken = JSON.parse(atob(token.split('.')[1]));
-      setUserId(decodedToken.userId)
-      setIsAuthenticated(true);
-    }
-  }, []);
+  const {isAuthenticated, userId} = useAuth()
 
   return (
     <header>

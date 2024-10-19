@@ -1,10 +1,12 @@
 import axios from 'axios';
 import React, {useState, useEffect} from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useAuth } from '../Context/AuthContext';
 
 export const UserProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth()
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -37,7 +39,7 @@ export const UserProfile = () => {
   }
 
   if (!user) {
-    return <div>Loading...</div>; // Показать индикатор загрузки, пока данные не загрузятся
+    return <div>Loading...</div>; 
   }
 
   return (
@@ -47,8 +49,9 @@ export const UserProfile = () => {
       <p>Ваш уникальный ID: {user._id}</p>
       <button
         onClick={() => {
-          localStorage.removeItem('token'); // Удаляем токен при выходе
-          navigate("/login"); // Перенаправляем на страницу входа
+          localStorage.removeItem('token'); 
+          setIsAuthenticated(false);
+          navigate("/login"); 
         }}
         style={{
           backgroundColor: "#007BFF",

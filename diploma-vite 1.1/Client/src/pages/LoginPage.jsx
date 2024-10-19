@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Context/AuthContext";
 import axios from "axios";
 
 const inputStyle = {
@@ -55,6 +56,7 @@ export const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate(); // Создаем navigate
+  const { setIsAuthenticated, setUserId } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,6 +69,10 @@ export const LoginPage = () => {
       // Сохраняем токен в localStorage
       localStorage.setItem('token', response.data.token);
 
+      // Устанавливаем значение в контекст
+      setIsAuthenticated(true);
+      setUserId(user._id);
+      
       // Перенаправление на страницу профиля
       navigate(`/profile/${user._id}`); 
     } catch (error) {
