@@ -15,7 +15,6 @@ export const UsersPage = () => {
         setCurrentUser(null);
         return;
       }          
-      // const decodedToken = jwt_decode(token);
       const currentUserId = userId;
 
       try {
@@ -47,7 +46,9 @@ export const UsersPage = () => {
     };
 
     fetchUsers();
-    fetchCurrentUser();
+    if(isAuthenticated){
+      fetchCurrentUser();
+    }
   }, [isAuthenticated, userId]);
 
   if (errorMessage) {
