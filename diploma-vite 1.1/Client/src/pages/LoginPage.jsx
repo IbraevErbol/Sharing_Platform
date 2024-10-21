@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
+import api from "../api/axiosInstance";
 import axios from "axios";
 
 const inputStyle = {
@@ -63,11 +64,11 @@ export const LoginPage = () => {
     setErrorMessage('');
 
     try {
-      const response = await axios.post('http://localhost:3000/login', { email, password });
-      const { token, user } = response.data;
-
+      const response = await api.post('http://localhost:3000/login', { email, password }, {withCredentials: true});
+      const { accessToken, user } = response.data;
+      // console.log('Токен доступа:', accessToken);
       // Сохраняем токен в localStorage
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', accessToken);
 
       // Устанавливаем значение в контекст
       setIsAuthenticated(true);

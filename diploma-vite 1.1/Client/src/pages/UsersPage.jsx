@@ -1,4 +1,5 @@
-import axios from "axios";
+// import axios from "axios";
+import api from "../api/axiosInstance";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
@@ -18,7 +19,7 @@ export const UsersPage = () => {
       const currentUserId = userId;
 
       try {
-        const response = await axios.get(`http://localhost:3000/profile/${currentUserId}`, {
+        const response = await api.get(`http://localhost:3000/profile/${currentUserId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -33,7 +34,7 @@ export const UsersPage = () => {
     // Получаем всех пользователей
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/users`, {
+        const response = await api.get(`http://localhost:3000/users`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

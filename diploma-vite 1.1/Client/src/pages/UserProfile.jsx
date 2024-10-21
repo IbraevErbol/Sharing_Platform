@@ -1,4 +1,5 @@
-import axios from 'axios';
+// import axios from 'axios';
+import api from '../api/axiosInstance';
 import React, {useState, useEffect} from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../Context/AuthContext';
@@ -18,7 +19,7 @@ export const UserProfile = () => {
     }else{
       const fetchUserData = async () => {
         try{
-          const response = await axios.get(`http://localhost:3000/profile/${id}`, {
+          const response = await api.get(`http://localhost:3000/profile/${id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
