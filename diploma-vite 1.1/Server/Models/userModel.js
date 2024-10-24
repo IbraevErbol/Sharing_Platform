@@ -16,13 +16,13 @@ const usersSchema = new Schema({
         type: String,
         require: true,
     },
-    isConfirmed: {
-        type: Boolean,
-        default: false, 
-    },
-    confirmationCode: {
-        type: String, 
-    }
+    // isConfirmed: {
+    //     type: Boolean,
+    //     default: false, 
+    // },
+    // confirmationCode: {
+    //     type: String, 
+    // }
 })
 const Users = mongoose.model('Users', usersSchema);
 export default Users;

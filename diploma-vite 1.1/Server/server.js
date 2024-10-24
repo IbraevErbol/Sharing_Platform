@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import userRoutes from "./Routes/userRoutes.js"
+import postRoutes from "./Routes/postRoutes.js"
 import connectDB from "./Config/db.js"
 import dotenv from 'dotenv';
 dotenv.config();
@@ -19,7 +20,8 @@ app.use(cookieParser())
 app.use(express.json())
 // app.use('/users', userRoutes);
 app.use(userRoutes);
-
+app.use(postRoutes)
+app.use('/uploads', express.static('uploads'));
 
 connectDB()
 

@@ -42,12 +42,6 @@ export const registerUser = async(req, res) => {
         })
         await newUser.save()
 
-        // const token = jwt.sign(
-        //     {userId: newUser._id},
-        //     process.env.JWT_SECRET,
-        //     {expiresIn: '1h'}
-        // );
-
         const accesToken = generateAccessToken(newUser._id);
         const refreshToken = generateRefreshToken(newUser._id);
 
@@ -80,11 +74,6 @@ export const loginUser = async (req, res) => {
         if(!isPasswordValid){
             return res.status(401).json({ error: 'Invalid email or password' });
         }
-        // const token = jwt.sign(
-        //     {userId: user._id},
-        //     process.env.JWT_SECRET,
-        //     {expiresIn: '1h'}
-        // );
 
         const accessToken = generateAccessToken(user._id);
         const refreshToken = generateRefreshToken(user._id);
@@ -95,7 +84,7 @@ export const loginUser = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000,
             sameSite: 'strict',
         })
-        console.log('Куки после установки:', req.cookies);
+        // console.log('Куки после установки:', req.cookies);
         // console.log('Токен доступа:', accessToken);
         // console.log('Токен обновления:', refreshToken);
 

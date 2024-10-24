@@ -48,6 +48,22 @@ export const UserProfile = () => {
       <h1>Welcome, {user.username}!</h1>
       <p>Email: {user.email}</p>
       <p>Ваш уникальный ID: {user._id}</p>
+
+      <button
+        onClick={() => navigate('/new')}
+        style={{
+          backgroundColor: '#28a745', // Зелёный цвет для создания поста
+          color: '#fff',
+          border: 'none',
+          padding: '10px 20px',
+          marginTop: '20px',
+          cursor: 'pointer',
+          borderRadius: '4px',
+        }}
+        >
+          Создать новый пост
+      </button>
+
       <button
         onClick={() => {
           localStorage.removeItem('token'); 
