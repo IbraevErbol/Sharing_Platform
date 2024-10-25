@@ -58,7 +58,7 @@ export const MainPage = () => {
                   }}
                 />
                 <h2>{post.title}</h2>
-                <p>{post.content.substring(0, 100)}...</p>
+                <p>{post.content.substring(0, 50)}...</p>
               </Link>
             </div>
           ))

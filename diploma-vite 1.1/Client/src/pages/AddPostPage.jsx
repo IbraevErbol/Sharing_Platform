@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import api from '../api/axiosInstance'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../Context/AuthContext'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'; 
 
 export const AddPostPage = () => {
   const navigate = useNavigate();
@@ -41,7 +43,7 @@ export const AddPostPage = () => {
   }
 
   return (
-    <div style={{margin: '50px auto', maxWidth: '600px'}}>
+    <div style={{margin: '50px auto', maxWidth: '1000px'}}>
       <h2>Создать новый пост</h2>
       {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
       <form onSubmit={handleSubmit}>
@@ -56,11 +58,13 @@ export const AddPostPage = () => {
         </div>
         <div>
         <label>Содержание:</label>
-          <textarea 
+          <ReactQuill
             value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
-          />
+            onChange={setContent}
+            theme='snow'
+            placeholder='Введите содержание поста...'>
+
+          </ReactQuill>
         </div>
         <div>
         <label>Изображение:</label>

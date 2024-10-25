@@ -37,7 +37,8 @@ export const PostPage = () => {
         alt={post.title}
         style={{ width: '100%', maxHeight: '400px', objectFit: 'cover', borderRadius: '8px' }}
       />
-      <p>{post.content}</p>
+      <div style={{marginTop: '20px'}} dangerouslySetInnerHTML={{__html: post.content}}>
+      </div>
     </div>
   )
 }

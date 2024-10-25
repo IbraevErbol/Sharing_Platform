@@ -9,6 +9,7 @@ export const UserProfile = () => {
   const navigate = useNavigate();
   const { setIsAuthenticated } = useAuth()
   const [user, setUser] = useState(null);
+  const [posts, setPosts] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
@@ -19,13 +20,22 @@ export const UserProfile = () => {
     }else{
       const fetchUserData = async () => {
         try{
-          const response = await api.get(`http://localhost:3000/profile/${id}`, {
+          const userResponse = await api.get(`http://localhost:3000/profile/${id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-          // console.log(response.data); 
-          setUser(response.data);
+          // console.log(userResponse.data); 
+          setUser(userResponse.data);
+          // setPosts(response.data.posts)
+
+          const postsResponse = await api.get(`http://localhost:3000/posts/user/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setPosts(postsResponse.data)
+          console.log(postsResponse.data);
         }catch(error){
           console.error(error); // Логируем ошибку для отладки
           setErrorMessage('Ошибка загрузки данных пользователя.')
@@ -34,6 +44,18 @@ export const UserProfile = () => {
       fetchUserData();
     }
   }, [id, navigate]);
+
+  const handleDelete = async(postId) => {
+    if(!window.confirm('Вы уверены, что хотите удалить этот пост?')) return;
+
+    try {
+      await api.delete(`http://localhost:3000/posts/${postId}`);
+      setPosts(posts.filter((post) => post._id !== postId));
+    } catch (error) {
+      console.error('Ошибка при удалении поста:', error);
+      setErrorMessage('Не удалось удалить пост.')
+    }
+  }
 
   if(errorMessage){
     return <div style={{color: 'red'}}>{errorMessage}</div>
@@ -80,8 +102,20 @@ export const UserProfile = () => {
           borderRadius: "4px",
         }}
       >
-        Logout
+        Выйти
       </button>
+      <h2 style={{marginTop: '30px'}}>Мои посты</h2>
+      {posts.length === 0 ? (
+        <p>У вас нет постов.</p>
+      ) : (
+        posts.map((post) => (
+          <div key={post._id} style={{ marginBottom: '20px' }}>
+            <h3>{post.title}</h3>
+            <button onClick={() => navigate(`/${post._id}/edit`)}>Редактировать</button>
+            <button onClick={() => handleDelete(post._id)}>Удалить</button>
+          </div>
+        ))
+      )}
     </div>
   );
 };

@@ -42,10 +42,38 @@ export const getPostId = async(req,res) => {
     }
 }
 
+// Получения постов конкретного пользователя
+export const getPostsByUserId = async(req,res) => {
+    try {
+        const { id } = req.params;
+        const posts = await Posts.find({authorId: id})
+        res.status(200).json(posts)
+    } catch (error) {
+        console.error('Ошибка при получении постов:', error);
+        res.status(500).json({ message: 'Ошибка получения постов.'})
+    }
+}
+
 // Обнавление поста
 export const updatePost = async(req,res) => {
+    const {title, content} = req.body;
+    let image;
+
+    // console.log('Body:', req.body); // Отладка: проверка тела запроса
+    // console.log('File:', req.file);
+
+    if(req.file){
+        image = req.file.path;
+    }
     try {
-        const updatedPost = await Posts.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        const updatedFields = {
+            title,
+            content,
+            ...(image && { image }), // Обновляем изображение только если оно есть
+        };
+
+
+        const updatedPost = await Posts.findByIdAndUpdate(req.params.id, updatedFields, {new: true});
         if(!updatedPost){
             return res.status(404).json({ message: 'Пост не найден' });
         }
